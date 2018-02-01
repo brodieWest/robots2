@@ -52,7 +52,7 @@ def ik_baxter():
     rs.enable()
 
     # Move to home position
-    move_neutral_position()
+    #move_neutral_position()
 
     # Indicate the SDK which arm we are going to use
     armcmd = baxter_interface.Limb(arm)
@@ -64,11 +64,15 @@ def ik_baxter():
     limb_joints = ik_service(srv, pose_arm)
 
     # Move arm
-    if limb_joints is not None:
-        armcmd.move_to_joint_positions(limb_joints)
+    #if limb_joints is not None:
+    #    armcmd.move_to_joint_positions(limb_joints)
 
     # After moving to the desired location, tell the SDK that you stopped using the arm, this will disable the arm at the same time
     armcmd.exit_control_mode()
+
+    trans, quat = query_transformation('base','left_gripper')
+   
+    rotate_pose(pose_point, pose_orientation, np.deg2rad(90), axis="z")
 
     return 0
 
